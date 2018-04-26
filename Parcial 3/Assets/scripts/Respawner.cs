@@ -5,19 +5,24 @@ using UnityEngine;
 public class Respawner : MonoBehaviour {
 
     [SerializeField]
-    private GameObject[] pieces;
+    private Pieces[] pieces;
+
     [SerializeField]
-    private Transform beginPieces;
+    private Transform pool;
+    
+    
     private Respawner instance;
 
     
 
     // Use this for initialization
     void Start () {
-        foreach (GameObject element in pieces)
+        foreach (Pieces element in pieces)
         {
-            GameObject obj = Instantiate(element);
-            obj.SetActive(false);
+            element.transform.position = pool.position;
+           
+            element.Activo = false;
+            
             
         }
 	}
@@ -40,19 +45,22 @@ public class Respawner : MonoBehaviour {
     }
     public void Respawnear()
     {
-        int azar = Random.Range(0, pieces.Length);
-        if (!pieces[azar].activeInHierarchy)
-        {
-            pieces[azar].transform.position = beginPieces.transform.position;
-            pieces[azar].SetActive(true);
+        int azar = Random.Range(0, 3);
+        
 
-            print("si mi pae respauneee");
-            print(azar);
+        if (pieces[azar].Activo == false)
+        {
+            pieces[azar].habilitar();
+            
+           
+
+           // print("si mi pae respauneee");
+           // print(azar);
         }
         else
         {
             Respawnear();
-            print("nelas panelas nuai respaun");
+           // print("nelas panelas nuai respaun");
         }
     }
 }

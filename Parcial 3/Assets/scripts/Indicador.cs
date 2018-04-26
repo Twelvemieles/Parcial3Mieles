@@ -17,7 +17,22 @@ public class Indicador : Enemies {
 	}
     public override void DoAtCollide()
     {
-        respawner.Respawnear();
+        
+    }
+    protected override void OnTriggerEnter(Collider other)
+    {
+        IPlayer playeringuis = other.gameObject.transform.GetComponent<IPlayer>();
+        if (playeringuis != null)
+        {
+            DoAtTriggerCollide();
+        }
+    }
+    
+    public override void DoAtTriggerCollide()
+    {
+         
+            respawner.Respawnear();
+        
     }
 
 }

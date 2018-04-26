@@ -2,32 +2,58 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class Enemies : MonoBehaviour, IEnemy {
+public abstract class Enemies : MonoBehaviour, IEnemy
+{
     [SerializeField]
     protected int damage;
-    protected IPlayer jugador;
+    [SerializeField]
+    protected int puntos;
+    [SerializeField]
+    protected Player jugador;
     // Use this for initialization
 
-    void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
-
-    protected void OnCollisionEnter(Collision collision)
+    protected virtual void Start()
     {
-        jugador = collision.gameObject.transform.GetComponent<IPlayer>();
-        if (jugador != null)
+        puntos = 1;
+        jugador = GameObject.Find("player").GetComponent <Player>();
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+
+    }
+
+    protected virtual void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.tag == "puntuador")
         {
-            DoAtCollide();
+            //print("choque punt");
             
+                DoAtTriggerCollide();
             
         }
     }
-    public abstract void DoAtCollide();
-    
+    protected void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.tag == "jugador")
+        {
+            DoAtCollide();
 
+
+        }
+    }
+    public abstract void DoAtCollide();
+    public virtual void DoAtTriggerCollide()
+    {
+
+       // print("sum punt");
+        jugador.SumarPuntaje(puntos);
+
+
+
+    }
 }
+
+
+
